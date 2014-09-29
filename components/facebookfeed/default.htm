@@ -1,0 +1,16 @@
+<div class="facebookfeed-widget">
+
+{% if facebookfeed.message %}
+    <p class="error">{{ facebookfeed.message }}</p>
+{% else %}
+	{% for post in facebookfeed %}
+		<article>
+		  <p>{{ post.message }}</p>
+			{% if post.image_link %}
+		  		<img src="{{ post.image_link }}" />
+			{% endif %}
+		</article>
+	{% endfor %}
+{% endif %}
+
+</div>

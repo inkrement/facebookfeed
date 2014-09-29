@@ -1,0 +1,16 @@
+{
+    "name": "inkrement/facebookfeed",
+    "description": "Facebook Feed integration",
+    "homepage": "http://www.github.com/inkrement",
+    "keywords": ["october", "cms", "facebook", "laravel", "feed"],
+    "authors": [
+        {
+            "name": "Christian Hotz-Behofsits",
+            "email": "chris.hotz.behofsits@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "facebook/php-sdk-v4": "4.0.11"
+    }
+}

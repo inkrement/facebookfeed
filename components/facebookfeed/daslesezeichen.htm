@@ -1,0 +1,22 @@
+{% if facebookfeed.message %}
+    <p class="error">{{ facebookfeed.message }}</p>
+{% else %}
+	{% for post in facebookfeed %}
+		<div class="floating">
+			<p class="ruleline"></p>
+
+		  	<a href = "https://www.facebook.com/dasLesezeichen">
+				{% if post.image_link %}
+			  		<img class="facebook" src="{{ post.image_link }}" />
+				{% endif %}
+			</a>
+			
+			<div class="comment reset">
+				<p>{{ post.message }}</p>
+			</div>
+
+
+		</div>
+	{% endfor %}
+{% endif %}
+
