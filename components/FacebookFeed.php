@@ -10,9 +10,10 @@ use System\Classes\ApplicationException;
 use Inkrement\FacebookFeed\Models\Settings;
 
 use Facebook;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
 use Facebook\FacebookSession;
 use FacebookAuthorizationException;
 
