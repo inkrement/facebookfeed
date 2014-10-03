@@ -26,6 +26,12 @@ class FacebookFeed extends ComponentBase{
 
     public function defineProperties(){
         return [
+        	'maxItems' => [
+        		'title'			=> 'Max posts',
+        		'description'	=> 'maximal number of facebook posts to load',
+        		'default'		=> 8,
+        		'type'			=> 'string'
+        	]
         ];
     }
 
@@ -33,7 +39,6 @@ class FacebookFeed extends ComponentBase{
 	public function info(){
 
 		FacebookSession::setDefaultApplication(
-
 			$this->appId, 
 			$this->appSecret
 		);
@@ -50,12 +55,21 @@ class FacebookFeed extends ComponentBase{
 			  'GET',
 			  '/'.$this->pageId.'/feed'
 			);
+
+			$result = [];
 			
 			try{
 				$response = $request->execute();
 				$posts = $response->getGraphObject()->asArray()["data"];
 
+				$num = 1;
+
 				foreach ($posts as &$post){
+
+					// load only a limited number of posts (maxItems) 
+					if($this->property('maxItems') < $num++) break;
+
+
 					if (isset($post->object_id))
 						$post->image_link = $this->getPictureLink($post->object_id, $session);
 
@@ -63,11 +77,13 @@ class FacebookFeed extends ComponentBase{
 						$post->short = substr ($post->message, 0, 100 /**$this->property('max_chars') **/).'...';
 					else
 						$post->short = '';
+
+					array_push($result, $post);
 				}
 			
-				return $posts;
+				return $result;
 			} catch (FacebookRequestException $e){
-				return ['message' => "could not authorize request. please check your facebook AppID, page id and secret!"];
+				return ['message' => 'could not authorize request. please check your facebook AppID, page id and secret!'];
 			}
 		}
 
@@ -94,11 +110,11 @@ class FacebookFeed extends ComponentBase{
 
 				return $graph["url"];
 			} catch (FacebookRequestException $e){
-				return "";
+				return '';
 			}
 		}
 		
-		return "";
+		return '';
 	}
 
 	public function onRun(){
