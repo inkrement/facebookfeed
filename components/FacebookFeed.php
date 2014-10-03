@@ -31,6 +31,12 @@ class FacebookFeed extends ComponentBase{
         		'description'	=> 'maximal number of facebook posts to load',
         		'default'		=> 8,
         		'type'			=> 'string'
+        	],
+        	'maxDescription' => [
+        		'title'			=> 'Max description length',
+        		'description'	=> 'Each facebook post has a description. Here you can enter a maximal length (the rest will be cropped)',
+        		'default'		=> 100,
+        		'type'			=> 'string'
         	]
         ];
     }
@@ -46,7 +52,7 @@ class FacebookFeed extends ComponentBase{
 		try{
 			$session = FacebookSession::newAppSession();
 		} catch(FacebookSDKException $e){
-			return ['message' => "could not start fb session"];
+			return ['message' => 'could not start fb session'];
 		}
 		
 		if($session){
@@ -60,7 +66,7 @@ class FacebookFeed extends ComponentBase{
 			
 			try{
 				$response = $request->execute();
-				$posts = $response->getGraphObject()->asArray()["data"];
+				$posts = $response->getGraphObject()->asArray()['data'];
 
 				$num = 1;
 
@@ -74,7 +80,7 @@ class FacebookFeed extends ComponentBase{
 						$post->image_link = $this->getPictureLink($post->object_id, $session);
 
 					if (isset($post->message))
-						$post->short = substr ($post->message, 0, 100 /**$this->property('max_chars') **/).'...';
+						$post->short = substr ($post->message, 0, $this->property('maxDescription')).'...';
 					else
 						$post->short = '';
 
@@ -87,7 +93,7 @@ class FacebookFeed extends ComponentBase{
 			}
 		}
 
-		return ['message' => "could not load feed"];
+		return ['message' => 'could not load feed'];
 	}
 
 	private function getPictureLink($objectId, $session){
@@ -108,7 +114,7 @@ class FacebookFeed extends ComponentBase{
 				$response = $request->execute();
 				$graph = $response->getGraphObject()->asArray();
 
-				return $graph["url"];
+				return $graph['url'];
 			} catch (FacebookRequestException $e){
 				return '';
 			}

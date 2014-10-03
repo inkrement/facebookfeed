@@ -1,4 +1,5 @@
 1.0.1: First version of FacebookFeed
 1.0.2: moved settings into db
 1.0.3: Added maxItems parameter to control the max number of posts to load
+1.10.0: Added max description length parameter and minor optimations.
 
